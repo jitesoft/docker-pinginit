@@ -10,9 +10,10 @@ build:
   services:
     - docker:dind
   before_script:
+    - echo ${CI_JOB_TOKEN} | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
     - echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USER} --password-stdin
   script:
-    - docker build --build-arg VERSION=${CI_COMMIT_TAG} -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA} .
+    - docker build -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA} .
     - TAGS="latest ${CI_COMMIT_SHA:0:6}"
     - |
       for tag in $TAGS; do
