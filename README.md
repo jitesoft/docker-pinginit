@@ -24,3 +24,7 @@ How long to wait between sending ping. Defaults to 1 second if not set.
 
 `--help`  
 Prints usage information.
+
+### Image labels
+
+This image follows the [Jitesoft image label specification 1.0.0](https://gitlab.com/snippets/1866155).
