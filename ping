@@ -38,16 +38,16 @@ fi
 
 echo "Pinging ${TARGET} ${TIMES} times..."
 
-for i in `seq 1 ${TIMES}`; do
-    ping -c 1 ${TARGET} &> /dev/null
+for i in $(seq 1 "${TIMES}"); do
+    ping -c 1 "${TARGET}" &> /dev/null
     RESULT=$?
 
     if [[ ${RESULT} -eq 0 ]]; then
         echo "Success. Service is active.";
         exit 0
     fi
-    echo "Service not active, waiting ${SLEEP} seconds."
-    sleep ${SLEEP}
+    echo "Service not active, waiting ${SLEEP} seconds (${i})."
+    sleep "${SLEEP}"
 done
 
 echo "No response. Exiting with error code 1."

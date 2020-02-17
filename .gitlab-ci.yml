@@ -1,26 +1,16 @@
 stages:
   - build
 
-variables:
-  image_name: jitesoft/pinginit
 
 build:
+  variables:
+    PLATFORMS: "linux/amd64,linux/arm64,linux/i386,linux/armhf,linux/ppc64el,linux/s390x"
   stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - echo ${CI_JOB_TOKEN} | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
-    - echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USER} --password-stdin
+  image: registry.gitlab.com/jitesoft/dockerfiles/misc:latest
   script:
-    - docker build -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA} .
-    - TAGS="latest ${CI_COMMIT_SHA:0:6}"
-    - |
-      for tag in $TAGS; do
-        docker tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA} ${image_name}:${tag}
-        docker tag ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA} ${CI_REGISTRY_IMAGE}:${tag}
-        docker push ${image_name}:${tag}
-        docker push ${CI_REGISTRY_IMAGE}:${tag}
-      done
+    - TAGS=$(helper "${CI_REGISTRY_IMAGE},jitesoft/pinginit" "latest,1.0.0,${CI_COMMIT_SHA:0:6}")
+    - docker buildx build --platform ${PLATFORMS} --push -t ${TAGS} --progress plain .
   tags:
     - jitesoft
+    - protected
+    - buildx
