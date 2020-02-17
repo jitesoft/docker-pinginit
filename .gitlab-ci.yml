@@ -1,10 +1,9 @@
 stages:
   - build
 
-
 build:
   variables:
-    PLATFORMS: "linux/amd64,linux/arm64,linux/i386,linux/armhf,linux/ppc64el,linux/s390x"
+    PLATFORMS: "linux/amd64,linux/arm64,linux/386,linux/ppc64le,linux/arm/v7,linux/s390x"
   stage: build
   image: registry.gitlab.com/jitesoft/dockerfiles/misc:latest
   script:
