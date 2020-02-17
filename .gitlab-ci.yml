@@ -9,7 +9,7 @@ build:
   image: registry.gitlab.com/jitesoft/dockerfiles/misc:latest
   script:
     - TAGS=$(helper "${CI_REGISTRY_IMAGE},jitesoft/pinginit" "latest,1.0.0,${CI_COMMIT_SHA:0:6}")
-    - docker buildx build --platform ${PLATFORMS} --push -t ${TAGS} --progress plain .
+    - docker buildx build --platform ${PLATFORMS} --push ${TAGS} --progress plain .
   tags:
     - jitesoft
     - protected
